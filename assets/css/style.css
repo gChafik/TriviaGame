@@ -15,7 +15,7 @@
     height: 100px;
 
   }
-  #q1:hover, #a1:hover, #a2:hover, #a3:hover, #a4:hover{
+  h3:hover{
     background-color: aquamarine;
     padding: 10px;
   }
