@@ -1,3 +1,4 @@
+$(document).ready(function(){
 let questionNum = 1;
 let showQuestion;
 let count = 0;
@@ -57,19 +58,23 @@ function displayQuestion(){
     $("#question").empty();
     $("#answers").empty();
     let quest = questions[questionNum].question;
-    $("#question").append($("<div>")).append(quest);
+    let newQuest = $("<div>");
+    newQuest.text(quest);
+    newQuest.addClass("font-weight-bold text-uppercase");
+    $("#question").append(newQuest);
 
     intervalId = setInterval(decrement, 1000);
-    for (let index = 0; index < 4; index++) {
-        let ans = questions[questionNum].answers[index];
-        let newH3 = $("<h3>");
-        newH3.append(ans);
-        $("#answers").append(newH3);
-        console.log("answers " + questions[questionNum].answers[index])
-    }
+    for (let index = 0; index < questions[questionNum].answers.length; index++) {
+        let newBtn = $("<button>");
+        newBtn.addClass("btn btn-info btn-lg btn-block")
+        newBtn.text(questions[questionNum].answers[index]);
+        $("#answers").append(newBtn);
+        console.log("answers " + questions[questionNum].answers[index]);
+        console.log("Correct Answer " + questions[questionNum].correctAnswer)
+    }   
+    answer();
 }
 function run() {
-    console.log("run function has been run");
     console.log("questions[questionNum].question " + questions[questionNum].question);
     clearInterval(intervalId);
     displayQuestion();
@@ -88,25 +93,22 @@ function decrement() {
         number = 5;
       //  Alert the user that time is up.
       console.log("number " + number);
-      console.log("intervalID " + intervalId);
-      console.log("Time Up!");
+      console.log("Time is Up!");
     }
   }
 
-function answer(ans){
-    $("#answers").on("click", function(){
-        if(ans === questions[questionNum.answers]){
-            console.log("Correct Answer!");
+function answer(){
+    $(".btn").on("click", function(){
+        if($(".btn").text() === questions[questionNum.correctAnswer]){
             $("#answers").empty();
             $("#answers").text("Correct Answer!");
         }
-        else if(this !== questions[questionNum.answers]){
-            console.log("Wrong Answer!");
+        else if($(".btn").text() !== questions[questionNum.correctAnswer]){
             $("#answers").empty();
             $("#answers").text("Wrong Answer");
         }
         stop();
-        nextQuestion();
+        questionNum++;
     });
 }
 
@@ -118,3 +120,4 @@ function stop() {
 //answer();
 //stopSlideShow();
 //displayQuestion();
+});
